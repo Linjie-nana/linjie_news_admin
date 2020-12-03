@@ -6,7 +6,7 @@
 export default {};
 </script>
 
-<style lang="less" scoped>
+<style >
 * {
   margin: 0;
   padding: 0;
