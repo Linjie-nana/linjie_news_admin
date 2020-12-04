@@ -10,11 +10,11 @@
         text-color="#fff"
         active-text-color="#ffd04b"
       >
-        <el-menu-item index="1" @click="$router.push('/postlist')">
+        <el-menu-item index="1" @click="$router.push('/postlist').catch(()=>{})">
           <i class="el-icon-menu"></i>
           <span slot="title">导航二</span>
         </el-menu-item>
-        <el-menu-item index="2" @click="$router.push('/editpost')">
+        <el-menu-item index="2" @click="$router.push('/editpost').catch(()=>{})">
           <i class="el-icon-setting"></i>
           <span slot="title">导航四</span>
         </el-menu-item>
@@ -57,7 +57,7 @@ export default {};
   background-color: #e9eef3;
   color: #333;
   text-align: center;
-  line-height: 160px;
+  // line-height: 160px;
 }
 
 body > .el-container {

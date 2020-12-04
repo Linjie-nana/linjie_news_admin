@@ -12,6 +12,16 @@ Vue.use(ElementUI)
 
 Vue.config.productionTip = false
 
+//添加过滤器，过滤没有基础url的图片链接
+Vue.filter('fixImgUrl', (oldUrl) => {
+  if (oldUrl.indexOf("http") > -1) {
+    return oldUrl;
+  } else {
+    return axios.defaults.baseURL + oldUrl;
+  }
+})
+
+
 new Vue({
   router,
   render: function (h) { return h(App) }
