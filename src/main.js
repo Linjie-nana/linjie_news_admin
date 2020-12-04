@@ -5,6 +5,14 @@ import router from './router'
 import axios from 'axios'
 axios.defaults.baseURL = 'http://liangwei.tech:3000'
 Vue.prototype.$axios = axios
+
+//拦截器如果请求没有token,则放入token
+axios.interceptors.request.use(config => {
+  if (!config.headers.Authorization && localStorage.getItem('token')) {
+    config.headers.Authorization = localStorage.getItem('token')
+  }
+  return config
+})
 //饿了么ui
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
