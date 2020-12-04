@@ -120,15 +120,20 @@ export default {
       console.log(res);
       file.id = res.data.id;
       this.form.cover.push(file);
-      console.log("上传成功");
+      this.$message("添加成功");
     },
     coverRemove(file, fileList) {
-      console.log(file);
-      console.log(fileList);
-      // console.log(file);
-      // this.form.cover.pop({ id: file.response.data.id });
+      //file是当前操作的图片数据
+      //fileList是回显到页面上的所有图片列表
+      //因为发送请求回来获取到的res.data.data.cover中有图片信息，所以要将这信息与fileList同步，这样才能完成编辑回显图片数据
+      //所以有了 :file-list="form.cover"，回显拿到的数据
+
+      //因为获取到的数据有的没有url基础，所以要判断添加
+      // 上传成功后的res中的id值直接交给到当前图片的file中，
+      // 然后将新的file加到form.cover中，这样发送数据的时候就可以有id值可以被服务器自动查找到。
+
       this.form.cover = fileList;
-      console.log("删除成功");
+      this.$message("删除成功");
     },
     postArticle() {
       this.$axios({
