@@ -17,6 +17,7 @@
       </el-form-item>
       <el-form-item label="上传照片">
         <el-upload
+          :file-list="form.cover"
           :action="$axios.defaults.baseURL + '/upload'"
           :headers="{
                 Authorization: token,
@@ -77,6 +78,31 @@ export default {
       this.postList = res.data.data;
       console.log(this.postList);
     });
+
+    //如果转跳进来的时候带请求了，则获取相关文章信息
+    if (this.$route.query.id) {
+      this.$axios({
+        url: "/post/" + this.$route.query.id,
+      }).then((res) => {
+        // 处理富文本框无法接受 div 的问题
+        res.data.data.content = res.data.data.content.replace(/div/g, "p");
+        //多选框勾选
+        this.checkList = res.data.data.categories.map((item) => {
+          return item.id;
+        });
+
+        //改造获取到的cover,也就是图片里面的格式
+        res.data.data.cover.map((img) => {
+          if (img.url.indexOf("http") == -1) {
+            img.url = this.$axios.defaults.baseURL + img.url;
+          }
+          img.uid = img.id;
+          return img;
+        });
+        this.form = res.data.data;
+        console.log(this.form);
+      });
+    }
   },
   watch: {
     checkList() {
@@ -89,14 +115,19 @@ export default {
     },
   },
   methods: {
+    //因为回显定向到form.cover,所以不能再单纯的添加id了，而是将id数据交到file中，并且将file加到要上传的form.cover中
     coverSuccess(res, file, fileList) {
       console.log(res);
-      this.form.cover.push({ id: res.data.id });
+      file.id = res.data.id;
+      this.form.cover.push(file);
       console.log("上传成功");
     },
     coverRemove(file, fileList) {
       console.log(file);
-      this.form.cover.pop({ id: file.response.data.id });
+      console.log(fileList);
+      // console.log(file);
+      // this.form.cover.pop({ id: file.response.data.id });
+      this.form.cover = fileList;
       console.log("删除成功");
     },
     postArticle() {
@@ -105,7 +136,7 @@ export default {
         method: "post",
         data: this.form,
       }).then((res) => {
-        console.log(res);
+        console.log(res, 111111111111111111);
         this.$router.push("/postlist");
       });
     },

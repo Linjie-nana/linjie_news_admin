@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 //引入axios
 import axios from 'axios'
-axios.defaults.baseURL = 'http://liangwei.tech:3000'
+axios.defaults.baseURL = ' http://liangwei.tech:3000'
 Vue.prototype.$axios = axios
 
 //拦截器如果请求没有token,则放入token
